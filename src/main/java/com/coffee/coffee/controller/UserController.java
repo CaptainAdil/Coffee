@@ -56,39 +56,13 @@ public class UserController {
         return mav;
     }
 
-//    @RequestMapping(value = "/user/{id}",method={RequestMethod.DELETE, RequestMethod.GET})
-//    public String deleteUser(@PathVariable(value = "id") long id, Model model){
-//        userService.delete(id);
-//
-//        return "redirect:/admin";
-//    }
-//
-//    @GetMapping("/user/{id}/edit")
-//    public String userEdit(@PathVariable(value = "id") long id , Model model){
-//        if(userService.getById(id)!=null){
-//            return "redirect:/admin";
-//        }
-//
-//        User user = userService.getById(id);
-//        List<User> users = new ArrayList<>();
-//        users.add(user);
-//        model.addAttribute("user",users);
-//        return "admin-edit";
-//    }
-//
-//    @PutMapping("/user/{id}/edit")
-//    public String userUpdate(@PathVariable(value = "id") long id,
-//                             @RequestParam String firstName,
-//                             @RequestParam String lastName,
-//                             @RequestParam String username,
-//                             @RequestParam String email,Model model){
-//        User user = userService.getById(id);
-//        user.setFirstName(firstName);
-//        user.setLastName(lastName);
-//        user.setUsername(username);
-//        user.setEmail(email);
-//
-//        return "redirect:/admin";
-//    }
+    @GetMapping("/delete")
+    public String deleteUser(@RequestParam long id){
+        userService.delete(id);
+
+        return "redirect:/admin";
+    }
+
+
 
 }

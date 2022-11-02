@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,16 +38,8 @@ public class UserServiceImpl implements UserService {
 
         user = userMapper.toEntity(userDto);
 
-//        user.setFirstName(userDto.getFirstName());
-//        user.setLastName(userDto.getLastName());
-//        user.setUsername(userDto.getUsername());
-//        user.setEmail(userDto.getEmail());
-        //encrypt the password once we integrate spring security
-        //user.setPassword(userDto.getPassword());
-
-
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        Role role = roleRepository.findByName("ROLE_USER");
+        Role role = roleRepository.findByName("USER");
         if(role == null){
             role = checkRoleExist();
         }
@@ -73,7 +66,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(Long id, UserDto userDto) {
-        User user = userRepository.findById(id).get();
+        User user = userRepository.findById(id).orElseThrow(() -> new CoffeeException(CoffeeResponseError.USER_NOT_FOUND_ID, Map.of("id",id)));
 
         user = userMapper.update(user,userDto);
 
@@ -83,28 +76,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(long id) {
-        User user = userRepository.findById(id).orElseThrow();
+        User user = userRepository.findById(id).orElseThrow(() -> new CoffeeException(CoffeeResponseError.USER_NOT_FOUND_ID, Map.of("id",id)));
         userRepository.delete(user);
     }
 
     @Override
     public User getById(Long id) {
-        User user = userRepository.findById(id).orElseThrow();
+        User user = userRepository.findById(id).orElseThrow(() -> new CoffeeException(CoffeeResponseError.USER_NOT_FOUND_ID, Map.of("id",id)));
         return user;
     }
 
-//    private UserDto convertEntityToDto(User user){
-//        UserDto userDto = new UserDto();
-//        String[] name = user.getFirstName().split(" ");
-//        userDto.setFirstName(name[0]);
-//        userDto.setLastName(name[1]);
-//        userDto.setUsername(user.getUsername());
-//        return userDto;
-//    }
 
     private Role checkRoleExist() {
         Role role = new Role();
-        role.setName("ROLE_USER");
+        role.setName("USER");
         return roleRepository.save(role);
     }
 }

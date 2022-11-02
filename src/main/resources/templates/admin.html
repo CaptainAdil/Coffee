@@ -42,6 +42,7 @@
             <td th:text="${el.email}" />
             <td>
                 <a th:href="@{admin/showUpdateForm(userId=${el.id})}" class="btn btn-info">Update</a>
+                <a th:href="@{admin/delete(id=${el.id})}"  class="btn btn-danger">Delete</a>
             </td>
         </tr>
         </tbody>

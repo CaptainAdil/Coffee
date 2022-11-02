@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 public enum CoffeeResponseError implements ErrorResponse{
 
 
-    COMPUTER_NOT_FOUND_ID( "DOCUMENT_NOT_FOUND",HttpStatus.NOT_FOUND , "Computer with id {id} not found!!!");
+    USER_NOT_FOUND_ID("USER_NOT_FOUND",HttpStatus.NOT_FOUND,"User with id {id} not found");
 
     final String key;
     final HttpStatus httpStatus;
